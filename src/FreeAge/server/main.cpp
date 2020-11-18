@@ -16,6 +16,7 @@
 #include "FreeAge/common/free_age.hpp"
 #include "FreeAge/common/logging.hpp"
 #include "FreeAge/common/messages.hpp"
+#include "FreeAge/common/game_data.hpp"
 #include "FreeAge/server/game.hpp"
 #include "FreeAge/server/match_setup.hpp"
 #include "FreeAge/server/settings.hpp"
@@ -25,7 +26,7 @@
 int main(int argc, char** argv) {
   // Seed the random number generator.
   srand(time(nullptr));
-  
+
   // Initialize loguru.
   loguru::g_preamble_date = false;
   loguru::g_preamble_thread = false;
@@ -40,7 +41,12 @@ int main(int argc, char** argv) {
   QCoreApplication::setOrganizationName("FreeAge");
   QCoreApplication::setOrganizationDomain("free-age.org");
   QCoreApplication::setApplicationName("FreeAge");
-  
+
+  if (!GameData::initialize("/home/sandsmark/freeaoe/data/aoe2de/")) {
+    qWarning() << "Failed to load gamedata";
+    return 1;
+  }
+
   LOG(INFO) << "Server: Start";
   
   // Parse command line arguments.

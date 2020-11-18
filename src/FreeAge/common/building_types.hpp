@@ -15,6 +15,7 @@
 enum class BuildingType {
   // Player buildings
   TownCenter = 0,
+  // TODO: use the proper annexes
   TownCenterBack,    // Not used as building, just for loading the sprite
   TownCenterCenter,  // Not used as building, just for loading the sprite
   TownCenterFront,   // Not used as building, just for loading the sprite
@@ -43,32 +44,29 @@ enum class BuildingType {
   NumBuildings
 };
 
-inline bool IsTree(BuildingType type) {
-  return type >= BuildingType::FirstTree &&
-         type <= BuildingType::LastTree;
-}
+bool IsTree(BuildingType type, const int civ = 0);
 
-QSize GetBuildingSize(BuildingType type);
-QRect GetBuildingOccupancy(BuildingType type);
-QString GetBuildingName(BuildingType type);
-double GetBuildingConstructionTime(BuildingType type);
+QSize GetBuildingSize(BuildingType type, const int civ = 0);
+QRect GetBuildingOccupancy(BuildingType type, const int civ = 0);
+QString GetBuildingName(BuildingType type, const int civ = 0);
+double GetBuildingConstructionTime(BuildingType type, const int civ = 0);
 
 /// TODO: This needs to consider the player's civilization and researched technologies
-ResourceAmount GetBuildingCost(BuildingType type);
+ResourceAmount GetBuildingCost(BuildingType type, const int civ = 0);
 
 /// Returns whether the given building type acts as a drop-off point for the given resource type.
-bool IsDropOffPointForResource(BuildingType building, ResourceType resource);
+bool IsDropOffPointForResource(BuildingType building, ResourceType resource, const int civ = 0);
 
 /// TODO: This needs to consider the player's civilization and researched technologies
-u32 GetBuildingMaxHP(BuildingType type);
-u32 GetBuildingMeleeArmor(BuildingType type);
+u32 GetBuildingMaxHP(BuildingType type, const int civ = 0);
+u32 GetBuildingMeleeArmor(BuildingType type, const int civ = 0);
 
 /// Returns the max number of the given building type that the player can build.
 /// Returns -1 if unlimited.
 /// TODO: This needs to consider the player's age.
 /// TODO: use infinity instead of -1 ?
-int GetBuildingMaxInstances(BuildingType type);
+int GetBuildingMaxInstances(BuildingType type, const int civ = 0);
 
-int GetBuildingProvidedPopulationSpace(BuildingType type);
+int GetBuildingProvidedPopulationSpace(BuildingType type, const int civ = 0);
 
-float GetBuildingLineOfSight(BuildingType type);
+float GetBuildingLineOfSight(BuildingType type, const int civ = 0);

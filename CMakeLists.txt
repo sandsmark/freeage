@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+find_package(yaml-cpp)
 
 # Cross-platform threading.
 # See: https://cmake.org/cmake/help/latest/module/FindThreads.html
@@ -57,14 +58,17 @@ target_link_libraries(loguru
   ${CMAKE_DL_LIBS}
 )
 
+set(GUTILS_STATIC True)
+add_subdirectory(third_party/genieutils)
+include_directories(third_party/genieutils/include/)
 
 # Packaged dependency: yaml-cpp (for json file loading)
-add_subdirectory(third_party/yaml-cpp-0.6.0)
+#add_subdirectory(third_party/yaml-cpp-0.6.0)
 
 
 # Packaged dependency: googletest (for unit tests)
-add_subdirectory(third_party/googletest)
-set_target_properties(gtest gtest_main PROPERTIES FOLDER "third_party")
+#add_subdirectory(third_party/googletest)
+#set_target_properties(gtest gtest_main PROPERTIES FOLDER "third_party")
 
 
 # FreeAge base library, used by both the application and the test
@@ -74,6 +78,7 @@ add_library(FreeAgeLib
   src/FreeAge/common/player.cpp
   src/FreeAge/common/timing.cpp
   src/FreeAge/common/unit_types.cpp
+  src/FreeAge/common/game_data.cpp
 )
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(FreeAgeLib PUBLIC
@@ -92,16 +97,16 @@ endif()
 target_include_directories(FreeAgeLib PUBLIC
   src
   third_party
-  third_party/mango/include
-  third_party/yaml-cpp-0.6.0/include
+  third_party/mango
 )
 target_link_libraries(FreeAgeLib PUBLIC
   Qt5::Widgets
   Qt5::Network
   mango
-  yaml-cpp2
+  yaml-cpp
   loguru
   Threads::Threads
+  genieutils
 )
 # Special case for GCC 8: Make std::filesystem work
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND

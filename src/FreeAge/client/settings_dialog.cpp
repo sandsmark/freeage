@@ -104,7 +104,7 @@ void Settings::TryToFindPathsOnWindows() {
               break;
             }
             
-            QStringList words = lineText.trimmed().split('\t', QString::SkipEmptyParts);
+            QStringList words = lineText.trimmed().split('\t', Qt::SkipEmptyParts);
             if (words.size() == 2 &&
                 words[0] == "\"1\"" &&
                 words[1].size() > 2) {

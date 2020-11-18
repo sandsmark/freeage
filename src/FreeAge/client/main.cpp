@@ -34,6 +34,8 @@
 #include "FreeAge/client/server_connection.hpp"
 #include "FreeAge/client/settings_dialog.hpp"
 
+#include "FreeAge/common/game_data.hpp"
+
 // TODO (puzzlepaint): For some reason, this include needed to be at the end using clang-10-rc2 on my laptop to not cause weird errors in CIDE. Why?
 #include <mango/core/endian.hpp>
 
@@ -68,7 +70,13 @@ int main(int argc, char** argv) {
   // At least in Qt 5.12.0, there is some behavior that seems like a bug which sometimes
   // groups together mouse wheel events that are far apart in time if this setting is at its default.
   qapp.setAttribute(Qt::AA_CompressHighFrequencyEvents, false);
-  
+
+  // TODO: file dialog + qsettings
+  if (!GameData::initialize("/home/sandsmark/freeaoe/data/aoe2de/")) {
+    qWarning() << "Failed to load gamedata";
+    return 1;
+  }
+
   // Resources to be loaded later.
   Palettes palettes;
   QProcess serverProcess;

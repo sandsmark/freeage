@@ -1,0 +1,3 @@
+[submodule "third_party/genieutils"]
+	path = third_party/genieutils
+	url = https://github.com/sandsmark/genieutils.git
